@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Landscape Google Search</title>
+  <title>Landscape DuckDuckGo Search</title>
   <style>
     html, body {
       margin: 0;
@@ -25,12 +25,13 @@
       width: 100vh;
       height: 100vw;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      justify-content: flex-start;
       align-items: center;
     }
 
     form {
-      text-align: center;
+      margin: 10px;
     }
 
     input[type="text"] {
@@ -51,21 +52,31 @@
       color: white;
       cursor: pointer;
     }
+
+    iframe {
+      width: 90vw;
+      height: 60vh;
+      border: none;
+      margin-top: 10px;
+      background: white;
+    }
   </style>
 </head>
 <body>
   <div class="rotated-wrapper">
-    <form onsubmit="event.preventDefault(); redirectToGoogle();">
-      <input type="text" id="searchInput" placeholder="Cari di Google...">
+    <form onsubmit="event.preventDefault(); searchDuckDuckGo();">
+      <input type="text" id="searchInput" placeholder="Cari di DuckDuckGo...">
       <button type="submit">Cari</button>
     </form>
+    <iframe id="resultsFrame" src=""></iframe>
   </div>
 
   <script>
-    function redirectToGoogle() {
+    function searchDuckDuckGo() {
       const query = document.getElementById('searchInput').value;
+      const iframe = document.getElementById('resultsFrame');
       if (query.trim() !== '') {
-        window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+        iframe.src = 'https://duckduckgo.com/?q=' + encodeURIComponent(query) + '&ia=web';
       }
     }
   </script>
