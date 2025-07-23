@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Landscape YouTube Search</title>
+  <title>Landscape YouTube Viewer</title>
   <style>
     html, body {
       margin: 0;
@@ -32,10 +32,13 @@
 
     form {
       margin: 10px;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
     }
 
     input[type="text"] {
-      width: 60vw;
+      width: 45vw;
       padding: 10px;
       font-size: 1.2rem;
       border-radius: 5px;
@@ -43,14 +46,21 @@
     }
 
     button {
-      margin-left: 10px;
-      padding: 10px 20px;
+      padding: 10px 15px;
       font-size: 1rem;
       border-radius: 5px;
       border: none;
+      cursor: pointer;
+    }
+
+    .search-btn {
+      background-color: #444;
+      color: white;
+    }
+
+    .play-btn {
       background-color: #FF0000;
       color: white;
-      cursor: pointer;
     }
 
     iframe {
@@ -64,20 +74,31 @@
 </head>
 <body>
   <div class="rotated-wrapper">
-    <form onsubmit="event.preventDefault(); searchYouTube();">
-      <input type="text" id="searchInput" placeholder="Cari video di YouTube...">
-      <button type="submit">Cari</button>
+    <form onsubmit="event.preventDefault();">
+      <input type="text" id="videoInput" placeholder="Paste URL video YouTube...">
+      <button class="search-btn" onclick="openYouTubeSearch()">Cari di YouTube</button>
+      <button class="play-btn" onclick="playYouTubeVideo()">Putar Video</button>
     </form>
     <iframe id="resultsFrame" src="" allowfullscreen></iframe>
   </div>
 
   <script>
-    function searchYouTube() {
-      const query = document.getElementById('searchInput').value.trim();
+    function openYouTubeSearch() {
+      const keyword = document.getElementById('videoInput').value.trim();
+      if (keyword !== '') {
+        const searchUrl = `https://www.youtube.com/results?search_query=${encodeURIComponent(keyword)}`;
+        window.open(searchUrl, '_blank');
+      }
+    }
+
+    function playYouTubeVideo() {
+      const input = document.getElementById('videoInput').value.trim();
       const iframe = document.getElementById('resultsFrame');
-      if (query !== '') {
-        const searchUrl = `https://www.youtube.com/embed?listType=search&list=${encodeURIComponent(query)}`;
-        iframe.src = searchUrl;
+      const match = input.match(/(?:v=|youtu\.be\/|embed\/)([a-zA-Z0-9_-]{11})/);
+      if (match && match[1]) {
+        iframe.src = `https://www.youtube.com/embed/${match[1]}?autoplay=1`;
+      } else {
+        alert("URL tidak valid. Silakan paste URL video YouTube langsung.");
       }
     }
   </script>
