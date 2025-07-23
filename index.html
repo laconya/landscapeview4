@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Landscape DuckDuckGo Search</title>
+  <title>Landscape Wikipedia Search</title>
   <style>
     html, body {
       margin: 0;
@@ -64,19 +64,20 @@
 </head>
 <body>
   <div class="rotated-wrapper">
-    <form onsubmit="event.preventDefault(); searchDuckDuckGo();">
-      <input type="text" id="searchInput" placeholder="Cari di DuckDuckGo...">
+    <form onsubmit="event.preventDefault(); searchWikipedia();">
+      <input type="text" id="searchInput" placeholder="Cari di Wikipedia...">
       <button type="submit">Cari</button>
     </form>
     <iframe id="resultsFrame" src=""></iframe>
   </div>
 
   <script>
-    function searchDuckDuckGo() {
-      const query = document.getElementById('searchInput').value;
+    function searchWikipedia() {
+      const query = document.getElementById('searchInput').value.trim();
       const iframe = document.getElementById('resultsFrame');
-      if (query.trim() !== '') {
-        iframe.src = 'https://duckduckgo.com/?q=' + encodeURIComponent(query) + '&ia=web';
+      if (query !== '') {
+        const formatted = query.replace(/\s+/g, '_');
+        iframe.src = 'https://en.m.wikipedia.org/wiki/' + encodeURIComponent(formatted);
       }
     }
   </script>
