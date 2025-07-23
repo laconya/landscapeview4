@@ -55,10 +55,19 @@
 </head>
 <body>
   <div class="rotated-wrapper">
-    <form action="https://www.google.com/search" method="GET" target="_blank">
-      <input type="text" name="q" placeholder="Cari di Google...">
+    <form onsubmit="event.preventDefault(); redirectToGoogle();">
+      <input type="text" id="searchInput" placeholder="Cari di Google...">
       <button type="submit">Cari</button>
     </form>
   </div>
+
+  <script>
+    function redirectToGoogle() {
+      const query = document.getElementById('searchInput').value;
+      if (query.trim() !== '') {
+        window.location.href = 'https://www.google.com/search?q=' + encodeURIComponent(query);
+      }
+    }
+  </script>
 </body>
 </html>
